@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Motivation API Documentation</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+        background: #f4f4f4;
+        color: #333;
+      }
+      header {
+        background: #4cafef;
+        padding: 15px;
+        color: white;
+        text-align: center;
+        border-radius: 8px;
+      }
+      h1 {
+        margin: 0;
+      }
+      section {
+        background: white;
+        padding: 20px;
+        margin-top: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      }
+      code {
+        background: #eee;
+        padding: 2px 5px;
+        border-radius: 4px;
+      }
+      pre {
+        background: #272822;
+        color: #f8f8f2;
+        padding: 15px;
+        border-radius: 8px;
+        overflow-x: auto;
+      }
+      button {
+        background: #4cafef;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+      }
+      button:hover {
+        background: #3b8ad9;
+      }
+      #result {
+        margin-top: 15px;
+        background: #222;
+        color: #0f0;
+        padding: 10px;
+        border-radius: 6px;
+        white-space: pre-wrap;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>📜 Motivation API</h1>
+      <p>Your daily dose of motivation with goal tracking</p>
+    </header>
+
+    <section>
+      <h2>Overview</h2>
+      <p>
+        This API returns a random motivational quote along with your current
+        goal and progress. Goals automatically rotate after completion.
+      </p>
+    </section>
+
+    <section>
+      <h2>Base URL</h2>
+      <p><code id="base-url"></code> <button id="copy-btn">Copy</button></p>
+    </section>
+
+    <section>
+      <h2>Endpoints</h2>
+      <h3><code>GET /motivation</code></h3>
+      <p>Returns a JSON object containing:</p>
+      <ul>
+        <li><strong>quote</strong> – Random motivational quote</li>
+        <li>
+          <strong>goal</strong> – Current goal object (<code>label</code>,
+          <code>days</code>)
+        </li>
+        <li><strong>progress</strong> – Progress percentage (0–100)</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Example Response</h2>
+      <pre>
+{
+  "quote": "The only way to do great work is to love what you do. – Steve Jobs",
+  "goal": { "label": "3 Days", "days": 3 },
+  "progress": 67
+}</pre
+      >
+    </section>
+
+    <section>
+      <h2>Try It Now</h2>
+      <button onclick="callApi()">Fetch Motivation</button>
+      <div id="result">Click the button to fetch a quote...</div>
+    </section>
+
+    <section>
+      <h2>How it Works</h2>
+      <ol>
+        <li>
+          API starts with the first goal in the list (<code>3 Days</code>).
+        </li>
+        <li>Progress increases daily based on goal duration.</li>
+        <li>When progress reaches 100%, goal rotates to the next one.</li>
+        <li>A random quote is returned with each request.</li>
+      </ol>
+    </section>
+
+    <script>
+      async function callApi() {
+        const resultBox = document.getElementById("result");
+        resultBox.textContent = "Loading...";
+        try {
+          const res = await fetch("/motivation");
+          const data = await res.json();
+          resultBox.textContent = JSON.stringify(data, null, 2);
+        } catch (err) {
+          resultBox.textContent = "❌ Error fetching API";
+        }
+      }
+    </script>
+
+    <script>
+      // Detect current running URL (protocol + host)
+      const baseURL = `${window.location.protocol}//${window.location.host}`;
+
+      // Put URL in <code>
+      document.getElementById("base-url").textContent = baseURL;
+
+      // Copy button action
+      document.getElementById("copy-btn").addEventListener("click", () => {
+        navigator.clipboard.writeText(baseURL).then(() => {
+          alert("✅ Base URL copied: " + baseURL);
+        });
+      });
+    </script>
+
+    <style>
+      /* Button look */
+      #copy-btn {
+        margin-left: 8px;
+        padding: 4px 8px;
+        font-size: 0.9em;
+        cursor: pointer;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        background: #555;
+      }
+      #copy-btn:hover {
+        background: #e9e9e9;
+      }
+    </style>
+  </body>
+</html>
