@@ -2,6 +2,8 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const port = process.env.PORT || 3000;
+app.listen(port, () => console.log(`Server running on port: ${port}`));
+
 app.use(express.static(__dirname));
 app.use(
   cors({
@@ -51,8 +53,4 @@ app.get("/motivation", (req, res) => {
     goal: goals[currentGoalIndex],
     progress: Math.round(progress),
   });
-});
-
-app.listen(port, () => {
-  console.log(`Server running on port: ${port}`);
 });
