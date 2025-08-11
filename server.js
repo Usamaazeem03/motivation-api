@@ -1,7 +1,15 @@
 const express = require("express");
+const cors = require("cors");
 const app = express();
 const port = process.env.PORT || 3000;
 app.use(express.static(__dirname));
+app.use(
+  cors({
+    origin: "*",
+    methods: ["GET", "POST"],
+    allowedHeaders: ["Content-Type"],
+  })
+);
 // Motivational quotes
 const quotes = [
   "The only way to do great work is to love what you do. – Steve Jobs",
